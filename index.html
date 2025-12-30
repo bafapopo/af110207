@@ -7,143 +7,103 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
-        body { 
-            font-family: 'Noto Sans TC', sans-serif; 
-            background-color: #F4EBE2; 
-            color: #5D4037; 
-            margin: 0;
-            padding: 20px;
-        }
-        .main-card { 
-            background: white; 
-            border-radius: 40px; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.05); 
-            width: 100%;
-            max-width: 600px;
-            margin: 0 auto 40px auto;
-        }
-        .input-field { 
-            background-color: #FDF9F6; 
-            border: 1px solid #EADDD2; 
-            border-radius: 50px; 
-            padding: 12px 20px; 
-            width: 100%; 
-            outline: none; 
-            transition: all 0.3s;
-        }
-        .input-field:focus {
-            border-color: #C19A6B;
-            box-shadow: 0 0 0 4px rgba(193, 154, 107, 0.1);
-        }
-        .paper-textarea { 
-            background-color: #FDF9F6; 
-            border: 1px solid #EADDD2; 
-            border-radius: 30px; 
-            padding: 20px; 
-            width: 100%; 
-            min-height: 120px; 
-            resize: none; 
-            outline: none; 
-        }
-        .submit-btn { 
-            background-color: #7D5A50; 
-            color: white; 
-            padding: 14px 40px; 
-            border-radius: 50px; 
-            transition: all 0.3s; 
-            cursor: pointer; 
-            border: none; 
-            font-weight: bold; 
-            width: 100%;
-        }
+        body { font-family: 'Noto Sans TC', sans-serif; background-color: #F4EBE2; color: #5D4037; }
+        .main-card { background: white; border-radius: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+        .input-field { background-color: #FDF9F6; border: 1px solid #EADDD2; border-radius: 50px; padding: 12px 20px; width: 100%; outline: none; }
+        .paper-textarea { background-color: #FDF9F6; border: 1px solid #EADDD2; border-radius: 30px; padding: 20px; width: 100%; min-height: 120px; resize: none; outline: none; }
+        .submit-btn { background-color: #7D5A50; color: white; padding: 14px 40px; border-radius: 50px; transition: all 0.3s; cursor: pointer; border: none; font-weight: bold; }
         .submit-btn:hover { background-color: #5D4037; transform: translateY(-2px); }
-        .table-container { 
-            background: rgba(255, 255, 255, 0.8); 
-            border-radius: 30px; 
-            overflow: hidden; 
-            max-width: 900px;
-            margin: 0 auto;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-        }
-        table { width: 100%; border-collapse: collapse; }
+        
+        /* 表格美化 */
+        .table-container { background: rgba(255, 255, 255, 0.6); border-radius: 30px; overflow: hidden; backdrop-filter: blur(10px); }
         th { background-color: #EADDD2; color: #7D5A50; padding: 15px; text-align: left; }
         td { padding: 15px; border-bottom: 1px solid #EEE6DE; background: white; }
+        tr:last-child td { border-bottom: none; }
     </style>
 </head>
-<body class="min-h-screen">
+<body class="min-h-screen flex flex-col items-center p-8">
 
-    <div class="main-card p-8 md:p-10">
+    <div class="main-card w-full max-w-xl p-10 mb-10">
         <h1 class="text-3xl font-bold mb-2">環境安全紀錄</h1>
-        <p class="text-[#A1887F] mb-8 text-sm">謝謝您與我們一同守護這片土地的寧靜</p>
+        <p class="text-[#A1887F] mb-8">謝謝您與我們一同守護這片土地的寧靜</p>
 
         <form id="reportForm" class="space-y-6">
-            <div>
-                <label class="block mb-2 ml-2 font-medium">發現時間</label>
+            <div class="flex flex-col md:flex-row md:items-center">
+                <label class="w-32 font-medium">發現時間</label>
                 <input type="datetime-local" id="time" required class="input-field">
             </div>
 
-            <div>
-                <label class="block mb-2 ml-2 font-medium">發生地點 (簡易防呆)</label>
-                <input type="text" id="location" placeholder="請輸入完整地址，需包含「市/區/路」等關鍵字" required class="input-field">
+            <div class="flex flex-col md:flex-row md:items-center">
+                <label class="w-32 font-medium">發生地點</label>
+                <input type="text" id="location" placeholder="請輸入地點內容..." required class="input-field">
             </div>
 
-            <div>
-                <label class="block mb-2 ml-2 font-medium">狀況描述</label>
+            <div class="space-y-2">
+                <label class="font-medium block">狀況描述</label>
                 <textarea id="description" placeholder="請填寫詳細細節..." required class="paper-textarea"></textarea>
             </div>
 
-            <button type="submit" class="submit-btn shadow-lg">紀錄已溫暖送達</button>
+            <div class="text-center pt-4">
+                <button type="submit" class="submit-btn shadow-lg">
+                    紀錄已溫暖送達
+                </button>
+            </div>
         </form>
     </div>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 25%">時間</th>
-                    <th style="width: 25%">地點</th>
-                    <th>描述紀錄</th>
-                </tr>
-            </thead>
-            <tbody id="recordList">
-                <tr><td colspan="3" class="text-center text-gray-400 py-10">目前尚未有任何環境紀錄。</td></tr>
-            </tbody>
-        </table>
+    <div class="w-full max-w-4xl">
+        <h2 class="text-xl font-bold mb-4 ml-4">已收到的紀錄清單</h2>
+        <div class="table-container shadow-sm">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr>
+                        <th class="w-1/4">時間</th>
+                        <th class="w-1/4">地點</th>
+                        <th>狀況描述</th>
+                    </tr>
+                </thead>
+                <tbody id="recordList">
+                    <tr>
+                        <td colspan="3" class="text-center text-gray-400 py-10">目前尚無紀錄，請於上方填寫後提交。</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
         const form = document.getElementById('reportForm');
         const recordList = document.getElementById('recordList');
-        let isFirst = true;
+        let isFirstRecord = true;
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            const location = document.getElementById('location').value;
 
-            // 零成本防呆邏輯：檢查關鍵字
-            const keywords = ['市', '縣', '區', '路', '街', '巷', '號'];
-            const hasKeyword = keywords.some(k => location.includes(k));
-
-            if (!hasKeyword && location.length < 5) {
-                alert('為了紀錄精確，請填寫更完整的地址（需包含縣市或路名）。');
-                return;
-            }
-
-            if (isFirst) { recordList.innerHTML = ''; isFirst = false; }
-
+            // 獲取數值
             const time = document.getElementById('time').value;
+            const location = document.getElementById('location').value;
             const description = document.getElementById('description').value;
 
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td class="text-sm">${time.replace('T', ' ')}</td>
-                <td class="font-medium">${location}</td>
-                <td class="text-sm text-gray-600">${description}</td>
+            // 如果是第一筆資料，先清空「目前尚無紀錄」的提示
+            if (isFirstRecord) {
+                recordList.innerHTML = '';
+                isFirstRecord = false;
+            }
+
+            // 建立新行
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td class="font-medium">${time.replace('T', ' ')}</td>
+                <td>${location}</td>
+                <td class="text-sm leading-relaxed">${description}</td>
             `;
-            
-            recordList.insertBefore(row, recordList.firstChild);
+
+            // 將新紀錄加到表格最上方 (最新資料排前面)
+            recordList.insertBefore(newRow, recordList.firstChild);
+
+            // 彈出成功動畫效果
+            alert('紀錄已顯示於下方表格！');
             form.reset();
-            alert('紀錄成功顯示！');
         });
     </script>
 </body>
